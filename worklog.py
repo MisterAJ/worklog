@@ -19,6 +19,8 @@ def menuloop():
             add_entry()
         if toggle == 'v':
             view_entries()
+        if toggle == 'b':
+            search_loop()
 
 
 def add_entry():
@@ -41,35 +43,31 @@ def view_entries():
 
 
 def by_date(search_string):
-    input('Please enter a date - MM/DD/YYYY')
     for item in task_list:
         print(item.find_by_date(search_string))
     pass
 
 
 def by_time(search_string):
-    input('Please enter number of minutes')
     for item in task_list:
         print(item.find_by_time(search_string))
     pass
 
 
 def by_exact(search_string):
-    input('Please enter exact phrase to search by')
     for item in task_list:
         print(item.find_by_exact(search_string))
     pass
 
 
 def by_pattern(search_string):
-    input('Please enter a regex pattern')
     for item in task_list:
         print(item.find_by_pattern(search_string))
     pass
 
 
 def search_loop():
-    '''Function for the search loop'''
+    '''Search for tasks'''
     toggle = None
     while toggle != 'b':
         print('')
@@ -78,25 +76,20 @@ def search_loop():
         toggle = input('\nMake a selection '
                        '(b to return to the main menu): ').lower().strip()
         if toggle == 'd':
-            by_date()
+            by_date(input('Please enter a date - MM/DD/YYYY'))
         if toggle == 't':
-            by_time()
+            by_time(input('Please enter number of minutes'))
         if toggle == 'e':
-            by_exact()
+            by_exact(input('Please enter exact phrase to search by'))
         if toggle == 'p':
-            by_pattern()
-
+            by_pattern(input('Please enter a regex pattern'))
 
 
 menu = OrderedDict([
     ('a', add_entry),
-    ('v', view_entries)
+    ('v', view_entries),
+    ('s', search_loop)
 ])
 
 if __name__ == '__main__':
     menuloop()
-
-# find by date
-# find by time spent
-# find by exact search
-# find by pattern
