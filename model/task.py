@@ -26,18 +26,19 @@ class Task:
               .format(self.name, self.time, self.date, self.notes))
 
     def find_by_date(self, date):
-        if self.date == date:
-            return self
+        return self.date == date
 
     def find_by_time(self, time):
-        if self.time == time:
-            return self
+        return self.time == time
 
     def find_by_exact(self, string):
-        if self.name == string or self.notes == string:
-            return self
+        return self.name == string or self.notes == string
 
     def find_by_pattern(self, pattern):
-        if (bool(re.search(pattern, self.name)) or
-                bool(re.search(pattern, self.notes))):
-            return self
+        return (bool(re.search(pattern, self.name)) or
+                bool(re.search(pattern, self.notes)))
+
+    def string(self):
+        return (self.name + ',' + self.time +
+                ',' + self.date + ',' + self.notes
+                + '\n')

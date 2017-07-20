@@ -1,6 +1,7 @@
 from model import task
 from collections import OrderedDict
 import datetime
+import csv
 
 task_item = task.Task
 task_list = []
@@ -45,28 +46,32 @@ def view_entries():
 def by_date(search_string):
     '''Search by Date'''
     for item in task_list:
-        print(item.find_by_date(search_string))
+        if item.find_by_date(search_string):
+            item.print()
     pass
 
 
 def by_time(search_string):
     '''Search by Time'''
     for item in task_list:
-        print(item.find_by_time(search_string))
+        if item.find_by_time(search_string):
+            item.print()
     pass
 
 
 def by_exact(search_string):
     '''Search by Exact phrase'''
     for item in task_list:
-        print(item.find_by_exact(search_string))
+        if item.find_by_exact(search_string):
+            item.print()
     pass
 
 
 def by_pattern(search_string):
     '''Search by Regex pattern'''
     for item in task_list:
-        print(item.find_by_pattern(search_string))
+        if item.find_by_pattern(search_string):
+            item.print()
     pass
 
 
@@ -88,6 +93,28 @@ def search_loop():
         if toggle == 'p':
             by_pattern(input('Please enter a regex pattern'))
 
+
+def load_log():
+    loaded_list = []
+    with open('work_log.csv', newline='') as file:
+        reader = csv.reader(file, delimiter=',')
+        rows = list(reader)
+        for row in rows[1:]:
+            print(row)
+            loaded_list.append(task.Task(name=row[0], time=row[1],
+                                         date=row[2], notes=row[3]))
+    return loaded_list
+
+
+def save_to_file():
+    file = open('work_log.csv', "a")
+    file.write('name,time,date,notes\n')
+    for item in task_list:
+        file.write(item.string())
+    file.close()
+    print("File Saved")
+pass
+
 search_menu = OrderedDict([
     ('d', by_date),
     ('t', by_time),
@@ -102,4 +129,6 @@ menu = OrderedDict([
 ])
 
 if __name__ == '__main__':
+    load_log()
     menuloop()
+    save_to_file()
