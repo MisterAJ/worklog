@@ -15,7 +15,7 @@ def menuloop():
         print('')
         for key, value in menu.items():
             print('{}) {}'.format(key, value.__doc__))
-        toggle = input('\nMake a selection (q to quit): ').lower().strip()
+        toggle = input('\nMake a selection (q to save and quit): ').lower().strip()
         if toggle == 'a':
             add_entry()
         if toggle == 'v':
@@ -27,7 +27,7 @@ def menuloop():
 def add_entry():
     '''Add an Entry'''
     name = input('\nName\n>>> ')
-    time = input('Time Taken\n>>> ')
+    time = input('Time Taken (min)\n>>> ')
     notes = input('Notes\n>>> ')
     try:
         task_list.append(
@@ -100,14 +100,13 @@ def load_log():
         reader = csv.reader(file, delimiter=',')
         rows = list(reader)
         for row in rows[1:]:
-            print(row)
             loaded_list.append(task.Task(name=row[0], time=row[1],
                                          date=row[2], notes=row[3]))
     return loaded_list
 
 
 def save_to_file():
-    file = open('work_log.csv', "a")
+    file = open('work_log.csv', "w")
     file.write('name,time,date,notes\n')
     for item in task_list:
         file.write(item.string())
@@ -129,6 +128,6 @@ menu = OrderedDict([
 ])
 
 if __name__ == '__main__':
-    load_log()
+    task_list = load_log()
     menuloop()
     save_to_file()
