@@ -2,6 +2,7 @@ from model import task
 from collections import OrderedDict
 import datetime
 import csv
+import os
 
 task_item = task.Task
 task_list = []
@@ -96,6 +97,8 @@ def search_loop():
 
 def load_log():
     loaded_list = []
+    if not os.path.exists("work_log.csv"):
+        open('work_log.csv', "w").close()
     with open('work_log.csv', newline='') as file:
         reader = csv.reader(file, delimiter=',')
         rows = list(reader)
